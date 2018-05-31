@@ -33,1138 +33,248 @@
         <script type="text/template">
 
 ## Tool-based Interactive Software Parallelization: A Case Study
-#### Andreas Wilhelm, ICSE-SEIP 2018
+#### <font color="white">A. Wilhelm</font>, F. Cakaric, T. Schüle, M. Gerndt, ICSE-SEIP 2018
+
+<br>
+
+<span>
+    <img src="img/logos.png" alt="TU Munich + Siemens" style="width:40%">
+</span>
 
 ====
 
-#### Parceive
-![Parceive Window](img/parceive_1.png)
+## 50 years of Software Engineering
+### A real success story
+
+----
+
+### Riding on Moore's Law
+<span>
+    <img src="img/riding_on_moores_law.png" class="stretch" alt="Moore's Law" style="width:90%">
+</span>
+
+----
+
+### Moore's Law is Dead, what's next?
+<div>
+    <img src="img/supercomputing.pdf" alt="Moore's Law" style="width:80%">
+</div>
+<small>https://en.wikipedia.org/wiki/Supercomputer</small>
+
+Note:
+5 decades of SE - Moore's Law<br>
+4 decades of ICSE - Adjustment<br>
+Allowed: ideas, abstractions, concepts, patterns<br>
+Bad news: Rate slowing down from 1 to 2 to 4 years<br>
+Good news: performance still doubles every 2 years
+
+----
+
+### The Future Is Wild
+<span>
+    <img src="img/a11.png" alt="TU Munich + Siemens" style="height:80%" width="80%">
+</span>
+<small>https://www.chiprebel.com/apple-a11-bionic</small>
+
+Note:
+By far the most silicon is spent for GPU and Memory<br>
+Area of Neuronal PU is as big as CPU<br>
+6 different ISA's<br>
+Future: 1) Eff 10% 2) Domain 3) Quantum
+
+----
+
+### Know your dependencies
+
+----
+
+### Listen to John L. Hennesey, et.al, not me
+<small>https://www.acm.org/turing-award-50/video/moores-law-is-really-dead</small>
 
 ====
 
-### Video
-<video controls> 
-  <source class="stretch" src=img/small.mp4 type=video/mp4>
+### Legacy code meets multi-core
+<span>
+    <img src="img/siemens_devices.png" alt="Legacy Code" style="height:50%" width="50%">
+</span>
+<small>https://www.siemens.com</small>
+
+----
+
+<blockquote cite="http://www.worldwildlife.org/who/index.html">
+  Systems are asynchronous, distributed and event driven in nature.<br>
+  This should be reflected in the language to define them and the tools to build them [...]
+</blockquote>
+#### Margaret Hamilton, ICSE 2018
+
+----
+
+### Our modus operandi
+<ol>
+  <li class="fragment">Identify concurrency</li>
+  <li class="fragment">Redesign the software architecture</li>
+  <li class="fragment">Parallelize the code</li>
+  <li class="fragment">Validate and verify</li>
+  <li class="fragment">Analyze the runtime</li>
+</ol>
+
+----
+
+### High-Level Problem
+<span>
+    <img src="img/ravages_of_time.png" alt="Legacy Code" style="height:60%" width="60%">
+</span>
+
+----
+
+### Low-Level Problem
+<span>
+    <img src="img/tweet.png" alt="Legacy Code" style="height:100%" width="100%">
+</span>
+
+----
+
+### Solution A: Hire Ninjas
+
+<div>
+    <img src="img/ninjagrey.png" alt="Ninja" style="width:50%">
+</div>
+<small>https://github.com/codewarz-ninja</small>
+
+----
+
+### Solution B: Use Tools
+
+----
+
+### Parallelization Tools
+<div>
+    <img src="img/parallelization-tools.pdf" alt="Parallelization Tools" style="width:30%">
+</div>
+<ul>
+  <li class="fragment strength">Very useful for *regular* code</li>
+  <li class="fragment weakness">Operate on low abstraction levels</li>
+</ul>
+
+----
+
+### Architecture Analysis Tools
+<div>
+    <img src="img/architecture-tools.pdf" alt="Architecture Tools" style="width:40%">
+</div>
+<ul>
+  <li class="fragment strength">Help to understand and evaluate</li>
+  <li class="fragment weakness">Neglect dynamic aspects</li>
+</ul>
+
+----
+
+### Parallelization requires comprehension
+#### (Of the structure and the behavior)
+
+====
+
+<div>
+    <img src="img/parceive-logo.png" alt="Parceive Logo" style="width:50%"><br>
+</div>
+
+----
+
+### Key Feature 1: Dependency analysis
+<video controls>
+  <source data-src="img/part1.mov" type="video/mp4" />
 </video>
 
+----
+
+### Key Feature 2: Architecture Analysis
+<video controls>
+  <source data-src="img/part2.mov" type="video/mp4" />
+</video>
+
+----
+
+### Workflow
+<span>
+   <img src="img/parceive-workflow.pdf" alt="Workflow" width="100%">
+</span>
+
+----
+
+### I will not talk about
+<span>
+   <img src="img/parceive-workflow-del.pdf" alt="Workflow Del" width="100%">
+</span>
+
+----
+
+### Software Architecture Reconstruction,<br> another try?
+
+----
+
+### So, you use directories?
+<pre><code class="python" data-trim data-noescape>
+controller := <span class="hljs-keyword">inFile</span>("/src/controller/.**")</code></pre>
+
+----
+
+### Or namespaces?
+<pre><code class="python" data-trim data-noescape>
+logic := <span class="hljs-keyword">namespace</span>("log")</code></pre>
+
+----
+
+### shared libraries anybody?
+<pre><code class="python" data-trim data-noescape>
+libs := <span class="hljs-keyword">image</span>("/3dparty/.*.so")</code></pre>
+
+----
+
+### All together?
+<pre><code class="python" data-trim data-noescape>
+operations := libs || <span class="hljs-keyword">function</span>("operate") && !logic</code></pre>
+
+----
+
+### Parceive helps to...
+<ol>
+  <li>Identify concurrency <font color="green">+++</font></li>
+  <li>Redesign the software architecture <font color="green">++</font></li>
+  <li>Parallelize the code <font color="red">-</font></li>
+  <li>Validate and verify <font color="green">+</font></li>
+  <li>Analyze the runtime <font color="red">-</font><font color="green">+</font></li>
+</ol>
+
 ====
 
-<!-- .slide: class="slide-hidden" -->
-
-### Font test
-
-```c++
-class ThisIsAClass {
-
-};
-
-int main() {
-  // this is a comment
-  std::vector<Foobar> foobar;
-
-  foobar.push_back(Foo{...});
-  foobar.push_back(Bar{...});
-  foobar.push_back(Baz{...});
-
-  for (auto& x : foobar) {
-    x.do_something();
-  }
-}
-```
-
-==============================================================================
-
-### What is runtime polymorphism <br> and when do you need it?
+### Some final thoughts
 
 ----
 
-### Consider the following
-
-```c++
-struct Car {
-  void accelerate();
-};
-
-struct Truck {
-  void accelerate();
-};
-
-struct Plane {
-  void accelerate();
-};
-```
-
-----
-
-### Returning related types from a function
-
-```c++
-??? getVehicle(std::istream& user) {
-  std::string choice;
-  user >> choice;
-  if      (choice == "car")   return Car{...};
-  else if (choice == "truck") return Truck{...};
-  else if (choice == "plane") return Plane{...};
-  else                        die();
-}
-```
-
-----
-
-### Storing related types in a container
-
-```c++
-int main() {
-  // Should store anything that has an accelerate() method
-  std::vector<???> vehicles;
-
-  vehicles.push_back(Car{...});
-  vehicles.push_back(Truck{...});
-  vehicles.push_back(Plane{...});
-
-  for (auto& vehicle : vehicles) {
-    vehicle.accelerate();
-  }
-}
-```
-
-----
-
-### `variant` sometimes does the trick
-
-- But it only works for closed set of types
-- Using visitation is sometimes (often?) not convenient
-
-----
-
-### Bottom line:
-#### Manipulating an open set of related types with different representations
-
-====================
-
-### C++ has a solution for that!
-
-----
-
-### Inheritance
-
-<pre><code data-sample="code/inheritance.cpp#Vehicle"></code></pre>
-
-----
-
-### Under the hood
-
-![Implementation of inheritance](img/inheritance.png)
-
-====================
-
-### Aside
-#### Inheritance has many problems
-
-----
-
-### Bakes in reference semantics
-
-```c++
-void foo(Vehicle* vehicle) {
-  Vehicle* copy = vehicle;
-  ...
-  copy->accelerate();
-  ...
-}
-```
-
-----
-
-### Heap allocations
-
-```c++
-std::unique_ptr<Vehicle> getVehicle(std::istream& user) {
-  std::string choice;
-  user >> choice;
-  if      (choice == "car")   return std::make_unique<Car>(...);
-  else if (choice == "truck") return std::make_unique<Truck>(...);
-  else if (choice == "plane") return std::make_unique<Plane>(...);
-  else                        die();
-}
-```
-
-Note:
-We don't really have a choice but to use pointers and allocate on the heap if
-we want to put them in contiguous storage (vector, array, etc...), because the
-objects have different sizes.
-
-----
-
-### Bakes in nullable semantics
-
-```c++
-std::unique_ptr<Vehicle> vehicle = getVehicle(std::cin);
-// can vehicle be null?
-```
-
-----
-
-### Ownership hell
-
-```c++
-Vehicle*                 getVehicle(std::istream& user);
-std::unique_ptr<Vehicle> getVehicle(std::istream& user);
-std::shared_ptr<Vehicle> getVehicle(std::istream& user);
-```
-
-----
-
-### Doesn't play well with algorithms
-
-```c++
-std::vector<std::unique_ptr<Vehicle>> vehicles;
-vehicles.push_back(std::make_unique<Car>(...));
-vehicles.push_back(std::make_unique<Truck>(...));
-vehicles.push_back(std::make_unique<Plane>(...));
-
-std::sort(vehicles.begin(), vehicles.end()); // NOT what you wanted!
-```
-
-----
-
-### Intrusive
-
-```c++
-namespace lib {
-  struct Motorcycle { void accelerate(); };
-}
-
-void foo(Vehicle& vehicle) {
-  ...
-  vehicle.accelerate();
-  ...
-}
-
-Motorcycle bike;
-foo(bike); // can't work!
-```
-
-----
-
-### Listen to Sean Parent, not me
-https://youtu.be/QGcVXgEVMJg
-
-====================
-
-### I just wanted this!
-
-```c++
-interface Vehicle { void accelerate(); };
-
-namespace lib {
-  struct Motorcycle { void accelerate(); };
-}
-struct Car   { void accelerate(); };
-struct Truck { void accelerate(); };
-
-int main() {
-  std::vector<Vehicle> vehicles;
-  vehicles.push_back(Car{...});
-  vehicles.push_back(Truck{...});
-  vehicles.push_back(lib::Motorcycle{...});
-
-  for (auto& vehicle : vehicles) {
-    vehicle.accelerate();
-  }
-}
-```
-
-----
-
-### How might that work?
-
-----
-
-### With inheritance
-
-![Implementation of inheritance](img/inheritance.png)
-
-----
-
-### Goal:
-#### Independent storage and method dispatch
-
-- Storage _policy_
-- VTable _policy_
-
-Note:
-State motivation for the talk, i.e. we're going to play around with different
-ways of implementing the `interface` keyword shown above.
-
-====================
-
-### Remote storage
-
-![Naive type erasure with a fat pointer](img/remote_storage.png)
-
-----
-
-### How that's implemented
-
-<pre><code data-sample='code/remote_storage.cpp#Vehicle'></code></pre>
-
-Note:
-Quickly show a preview of the vtable, and then come back to explain.
-
-----
-
-### The vtable
-
-<pre><code data-sample='code/vtable.hpp#vtable'></code></pre>
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/remote_storage.dyno.cpp#Vehicle'></code></pre>
-
-Note:
-Explain that this is a compile-time string, and it's as efficient as a
-member access in a struct (the vtable).
-
-----
-
-### Dyno's vtable
-
-<pre><code data-sample='code/vtable.dyno.hpp#IVehicle'></code></pre>
-
-----
-
-### Strengths and weaknesses
-
+### Why binary analysis?
 <ul>
-  <li class="strength">Simple model, similar to classic inheritance</li>
-  <li class="weakness">Always requires an allocation</li>
+  <li class="fragment strength">No source code needed</li>
+  <li class="fragment strength">Optimizations and generics</li>
+  <li class="fragment strength">Language independent</li>
+  <li class="fragment weakness">Slowdown</li>
+  <li class="fragment weakness">Complex deployments</li>
 </ul>
 
-====================
-
-### The _small buffer optimization_ (SBO)
-
-![Type erasure with SBO](img/sbo_storage.png)
+----
+### The facts
+<span class="fragment">**Biggest software applied:**   <font color="white">>10M loc</font></span><br>
+<span class="fragment">**Supported plattforms:**   <font color="white">Linux, Windows</font></span><br>
+<span class="fragment">**Supported languages:**   <font color="white">C/C++</font></span><br>
+<span class="fragment">**Current state:** <font color="white">Working prototype</font></span><br>
 
 ----
 
-### How that's implemented
-
-<pre><code data-sample='code/sbo_storage.cpp#Vehicle'></code></pre>
-
-Note:
-Make sure to explain placement new.
+### We strive for collaborations
+I brought some business cards
 
 ----
 
-### Alternative implementation 1
-
-![Type erasure with SBO, alternative implementation 1](img/sbo_storage-alternative1.png)
-
-Note:
-We can actually inline the bool into the vtable's function definitions, since
-they always know whether the thing is going to be in the buffer or on the heap.
-
-----
-
-### Alternative implementation 2
-(seems to be the fastest)
-
-![Type erasure with SBO, alternative implementation 2](img/sbo_storage-alternative2.png)
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/sbo_storage.dyno.cpp#Vehicle'></code></pre>
-
-----
-
-### Strengths and weaknesses
-
-<ul>
-  <li class="strength">Does not always require allocating</li>
-  <li class="weakness">Takes up more space</li>
-  <li class="weakness">Copy/move/swap is more complicated</li>
-  <li class="weakness">Dispatching may be more costly</li>
-</ul>
-
-Note:
-We need to handle cases where the two types are not the same in swap.
-
-====================
-
-### Always-local storage
-
-![Type erasure with local storage](img/local_storage.png)
-
-----
-
-### Doesn't fit? Doesn't compile!
-
-----
-
-### How that's implemented
-
-<pre><code data-sample='code/local_storage.cpp#Vehicle'></code></pre>
-
-Note:
-Mention that we're not checking for the alignment here.
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/local_storage.dyno.cpp#Vehicle'></code></pre>
-
-----
-
-### Strengths and weaknesses
-
-<ul>
-  <li class="strength">No allocation &ndash; ever</li>
-  <li class="strength">Simple dispatching</li>
-  <li class="weakness">Takes up more space</li>
-</ul>
-
-====================
-
-### A quick benchmark
-
-Creating many 16 bytes objects
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["inheritance",
-               "remote storage",
-               "SBO storage (4 bytes)",
-               "SBO storage (8 bytes)",
-               "SBO storage (16 bytes)",
-               "local storage (16 bytes)"],
-    "datasets": [{
-      "data": [55, 54, 54, 56, 3, 2],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-Note:
-- In some cases, similar benefits could be achieved by using a pool allocator
-- However, if you shuffle the data with a pool allocator, the data and the pointer
-  to the data become in a different order. Traversing and dereferencing elements
-  in a shuffled sequence may become cache unfriendly. With the local buffer and
-  SBO approaches, the data and the handle stay together so this problem does not
-  arise.
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-Creating many 4 bytes objects
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["inheritance",
-               "remote storage",
-               "SBO storage (4 bytes)",
-               "SBO storage (8 bytes)",
-               "SBO storage (16 bytes)",
-               "local storage (16 bytes)"],
-    "datasets": [{
-      "data": [56, 55, 3, 3, 3, 3],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-Accessing many 4 bytes objects<br>
-(10 x 3 method calls, SBO with bool)
-
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["inheritance",
-               "remote storage",
-               "SBO storage (4 bytes)",
-               "SBO storage (8 bytes)",
-               "SBO storage (16 bytes)",
-               "local storage (16 bytes)"],
-    "datasets": [{
-      "data": [49, 45, 59, 58, 58, 46],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-Accessing many objects<br>
-(half 8 bytes, half 16 bytes, SBO with bool)
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["inheritance",
-               "remote storage",
-               "SBO storage (4 bytes)",
-               "SBO storage (8 bytes)",
-               "SBO storage (16 bytes)",
-               "local storage (16 bytes)"],
-    "datasets": [{
-      "data": [46, 47, 56, 56, 58, 46],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-Accessing many 4 bytes objects
-<br>(10 x 3 method calls, SBO with pointer)
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["inheritance",
-               "remote storage",
-               "SBO storage (4 bytes)",
-               "SBO storage (8 bytes)",
-               "SBO storage (16 bytes)",
-               "local storage (16 bytes)"],
-    "datasets": [{
-      "data": [49, 46, 46, 45, 45, 46],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-Accessing many objects<br>
-(half 8 bytes, half 16 bytes, SBO with pointer)
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["inheritance",
-               "remote storage",
-               "SBO storage (4 bytes)",
-               "SBO storage (8 bytes)",
-               "SBO storage (16 bytes)",
-               "local storage (16 bytes)"],
-    "datasets": [{
-      "data": [49, 45, 53, 50, 45, 46],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-### Guidelines
-
-- Use local storage whenever you can afford it
-- Otherwise, use SBO with the largest reasonable size
-- Use purely-remote storage only when
-  + Object sizes are so scattered SBO wouldn't help
-
-====================
-
-### Non-owning storage
-(reference semantics, not value semantics)
-
-![Type erasure with non-owning storage](img/non_owning_storage.png)
-
-----
-
-### Basically a polymorphic view
-
-```c++
-void process(VehicleRef vehicle) {
-  ...
-  vehicle.accelerate();
-  ...
-}
-
-int main() {
-  Truck truck{...};
-  process(truck); // No copy!
-}
-```
-
-----
-
-### How that's implemented
-
-<pre><code data-sample='code/non_owning_storage.cpp#VehicleRef'></code></pre>
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/non_owning_storage.dyno.cpp#VehicleRef'></code></pre>
-
-====================
-
-### Shared remote storage
-
-![Type erasure with shared remote storage](img/shared_storage.png)
-
-Note:
-One use case is copy-on-write, where you share everything and make a copy
-whenever you call a non-const function on it. Allows optimal sharing and
-thread safety with minimal headache.
-
-----
-
-### How that's implemented
-
-<pre><code data-sample='code/shared_remote_storage.cpp#Vehicle'></code></pre>
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/shared_remote_storage.dyno.cpp#Vehicle'></code></pre>
-
-----
-
-### Becomes interesting when mixed with copy on write
-
-----
-
-<pre><code data-sample='code/shared_remote_storage.dyno.cow.cpp#Vehicle'></code></pre>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-### Concrete example
-#### (stolen from Sean Parent)
-
-```c++
-int main() {
-  history_t h;
-
-  current(h).emplace_back(0);
-  current(h).emplace_back(std::string("Hello!"));
-
-  draw(current(h), std::cout);
-
-  commit(h);
-
-  current(h).emplace_back(current(h));
-  current(h).emplace_back(my_class_t());
-
-  draw(current(h), std::cout);
-
-  undo(h);
-
-  draw(current(h), std::cout);
-}
-```
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-```c++
-using document_t = std::vector<Drawable>;
-
-void draw(document_t const& x, std::ostream& out) {
-  // ...
-}
-
-using history_t = std::vector<document_t>;
-
-void commit(history_t& x) {
-  x.push_back(x.back());
-}
-
-void undo(history_t& x) {
-  x.pop_back();
-}
-
-document_t& current(history_t& x) {
-  return x.back();
-}
-```
-
-----
-
-### Strengths and weaknesses
-
-<ul>
-  <li class="strength">Allows sharing potentially expensive state</li>
-  <li class="strength">Interacts nicely with concurrency</li>
-  <li class="weakness">Allocates</li>
-  <li class="weakness">Uses reference counts</li>
-</ul>
-
-====================
-
-### Now, let me show you why you care
-
-----
-
-### Have you heard of the following?
-
-- [`std::function`](http://en.cppreference.com/w/cpp/utility/functional/function)
-- [`inplace_function`](https://groups.google.com/a/isocpp.org/d/msg/std-proposals/vven2Om7Ha8/C7qQ_XwVCwAJ)
-- [`function_view`](https://vittorioromeo.info/index/blog/passing_functions_to_functions.html)
-
-----
-
-### Consider this
-
-<pre><code data-sample='code/functions.cpp#basic_function'></code></pre>
-
-----
-
-### Here's all of them:
-
-<pre><code data-sample='code/functions.cpp#function'></code></pre>
-<pre><code data-sample='code/functions.cpp#inplace_function'></code></pre>
-<pre><code data-sample='code/functions.cpp#function_view'></code></pre>
-<pre><code data-sample='code/functions.cpp#shared_function'></code></pre>
-
-==============================================================================
-
-### We've talked about storage
-### What about vtables?
-
-----
-
-### Normally, it is remote
-
-![Traditional fully remote vtable](img/remote_vtable.png)
-
-----
-
-### Turns out we have some choices
-
-====================
-
-### Inlining the vtable in the object
-
-<img src="img/local_vtable.png" style="width:600px; height:auto;">
-
-----
-
-### How that's implemented
-
-<pre><code data-sample='code/local_vtable.cpp#Vehicle'></code></pre>
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/local_vtable.dyno.cpp#Vehicle'></code></pre>
-
-----
-
-### Usually a pessimization
-(I did measure)
-
-- If vtable in the cache, indirection does not matter
-- Vtable in the object is more likely to be cold
-
-====================
-
-### Partial vtable inlining
-
-![Partially inlined vtable](img/joined_vtable.png)
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-### The Vtable &mdash; remote part
-
-<pre><code data-sample='code/joined_vtable.cpp#vtable'></code></pre>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-### The Vtable &mdash; local part
-
-<pre><code data-sample='code/joined_vtable.cpp#joined_vtable'></code></pre>
-
-----
-
-<!-- .slide: class="slide-hidden" -->
-
-### The polymorphic wrapper
-
-<pre><code data-sample='code/joined_vtable.cpp#Vehicle'></code></pre>
-
-----
-
-### With Dyno
-
-<pre><code data-sample='code/joined_vtable.dyno.cpp#Vehicle'></code></pre>
-
-----
-
-### Again, not really an optimization
-
-====================
-
-### Fun observation about vtables
-
-----
-
-<iframe id="godbolt" class="stretch" src="https://gcc.godbolt.org/e#z:OYLghAFBqd5QCxAYwPYBMCmBRdBLAF1QCcAaPECAKxAEZSAbAQwDtRkBSAJgCFufSAZ1QBXYskwgA5IILERyAgGoAagBUmAIwaYlHAOx8ADAEElSgG6o86JRABUAM1oBKCFZv2XHAMzGzlta2Do5cbh7oXr7%2B5hF2Tj7hQVF%2BHKaxQfGOACxJnt6ppgYAItFpJuUEmAC2AA7MVXo%2BAMIEAJ61mCxM1bpqvtjlmAAeVcQsqhraumgsspYEWjplRasmsvKKSsQ1qFUA%2BqxteoblGTZKzhAuJzyWtXL7ALQDV4KYDI77BXclZ4EXULXW73R4vHzYIHvT7faInUrpAG2Rw%2BYEGO4WB7EZ6vVHQr4/eH/OI5NGGUHY8GQ7IQfGwvxExHqJYzVBzAj2JSzeaYx4rAIRTl0/l/QoVUwbBTKPAsBCYYiEVgSQ4sY7o4l4YgEERMBhIy60NE%2BYpKIz82Ka7W6/VAm6%2BE1msUWrU6vUk1F242m82WS2um00z0OkX6Upi8qSrYMVDIXUqtWnREkw128kWAjafYAOjeHwJcL%2BScytpB6czOa4tLz9N%2BoeJxY9pYzDGzKKrMMJhYFxcDTfLpLpnbrTKmOi5bJ5zf2PsFSmF4br4dMJIgO2qe0w8e4ADYlExUzE9zmUz6mBXrqecx7L6SfuUu%2BUVzK5QrFixlUcd3uD/8z1c74if6VgBAR/teTpHreIYIuKJgrtGsYtp%2BXC7vuty/seF4QUBWGHmBuEYVBC4wVILiMNIACsUikCw0hGNRqDSM0/D8HOojiLo3A%2BLQ1EEHRpFkQA1iAFG0FmACc25GPoAAc2TcT4%2BhcBRFHkVI2TUbRUj0aQjFSNRgggEYpB8dppGkHAsBIGgdR4DoZAUBANm1HZ8ooMwbBScZjh2WMhkQJo/GkJoMpMMQbTSDxpA2b0LAEAA8iwDARWZpBYNUrDADoQX4Dsih4BYmCGalIyYMgIhVJF1EylUDBVSZCrVPVIgsFgPksJg6BVWRHnsCxvCMHgmiGZAZGoA8eATtITzxT4ShPLI6D2pwvD8LQGlCOxEh0D1lGaUFenDDJ25PNu2Rcr1SjblmRg3XYuCECQehcNxpBKM0qC2fZz3cTczGrbwvH8S4QkgNkMk3T44lcLQFHbsdXD6NkolqRtWk6XpBlGSZwO7VIXD7almM42ZIOkIVxCCJNtHZEAA%3D%3D"></iframe>
-
-Note:
-- First load is vtable load
-- Second load is passing `this` as the first function argument
-- Strictly speaking, the compiler would have the right not to reload the vtable pointer because we're not using `std::launder`
-
-----
-
-#### With `-fstrict-vtable-pointers`
-
-<iframe id="godbolt" class="stretch" src="https://gcc.godbolt.org/e#z:OYLghAFBqd5QCxAYwPYBMCmBRdBLAF1QCcAaPECAKxAEZSAbAQwDtRkBSAJgCFufSAZ1QBXYskwgA5IILERyAgGoAagBUmAIwaYlHAOx8ADAEElSgG6o86JRABUAM1oBKCFZv2XHAMzGzlta2Do5cbh7oXr7%2B5hF2Tj7hQVF%2BHKaxQfGOACxJnt6ppgYAItFpJuUEmAC2AA7MVXo%2BAMIEAJ61mCxM1bpqvtjlmAAeVcQsqhraumgsspYEWjplRasmsvKKSsQ1qFUA%2BqxteoblGTZKzhAuJzyWtXL7ALQDV4KYDI77BXclZ4EXULXW73R4vHzYIHvT7faInUrpAG2Rw%2BYEGO4WB7EZ6vVHQr4/eH/OI5NGGUHY8GQ7IQfGwvxExHqJYzVBzAj2JSzeaYx4rAIRTl0/l/QoVUwbBTKPAsBCYYiEVgSQ4sY7o4l4YgEERMBhIy60NE%2BYpKIz82Ka7W6/VAm6%2BE1msUWrU6vUk1F242m82WS2um00z0OkX6Upi8qSrYMVDIXUqtWnREkw128kWAjafYAOjeHwJcL%2BScytpB6czOa4tLz9N%2BoeJxY9pYzDGzKKrMMJhYFxcDTfLpLpnbrTKmOi5bJ5zf2PsFSmF4br4dMJIgO2qe0w8e4ADYlExUzE9zmUz6mBXrqecx7L6SfuUu%2BUVzK5QrFixlUcd3uD/8z1c74if6VgBAR/teTpHreIYIuKJgrtGsYtp%2BXC7vuty/seF4QUBWGHmBuEYVBC4wVILiMNIACsUikCw0hGNRqDSM0/D8HOojiLo3A%2BLQ1EEHRpFkQA1iAFG0FmACc25GPoAAc2TcT4%2BhcBRFHkVI2TUbRUj0aQjFSNRgggEYpB8dppGkHAsBIGgdR4DoZAUBANm1HZ8ooMwbBScZjh2WMhkQJo/GkJoMpMMQbTSDxpA2b0LAEAA8iwDARWZpBYNUrDADoQX4Dsih4BYmCGalIyYMgIhVJF1EylUDBVSZCrVPVIgsFgPksJg6BVWRHnsCxvCMHgmiGZAZGoA8eATtITzxT4ShPLI6D2pwvD8LQ2TzY4Gx4IoTzpiyTy1NYcXyoIBnsRIdA9ZRmlBXpwwyduTzbhtyC9Uo25ZkYX12LghAkHoXDcaQSjNKgtn2YD3E3Mxq28Lx/EuEJIDZDJX0%2BOJXC0BR26PVw%2BjZKJakaTRd3SAZRkmYj11SFwt2pXpCNmUjpCFcQgiTbR2RAA%3D%3D%3D"></iframe>
-
-Note:
-- Now there's only one load for the inheritance-based one (because the vptr can't change since we're not using `std::launder`)
-- The handrolled remote vtable loads the pointer twice; nothing would prevent the code from changing the vptr during the call, since there's nothing special about the vtable.
-
-====================
-
-### Another story about inlining
-
-```c++
-template <typename AnyIterator, typename It>
-__attribute__((noinline)) AnyIterator make(It it) {
-  return AnyIterator{std::move(it)};
-}
-
-template <typename AnyIterator>
-void benchmark_any_iterator(benchmark::State& state) {
-  std::vector<int> input{...};
-  std::vector<int> output{...};
-
-  while (state.KeepRunning()) {
-    auto first = make<AnyIterator>(input.begin());
-    auto last = make<AnyIterator>(input.end());
-    auto result = make<AnyIterator>(output.begin());
-
-    for (; !(first == last); ++first, ++result) {
-      *result = *first;
-    }
-  }
-}
-```
-
-----
-
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["static dispatch", "inheritance", "dyno's remote vtable"],
-    "datasets": [{
-      "data": [14, 1126, 1089],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-### Now, just a small tweak
-
-```c++
-template <typename AnyIterator, typename It>
-// __attribute__((noinline))
-AnyIterator make(It it) {
-  return AnyIterator{std::move(it)};
-}
-```
-
-----
-
-<canvas data-chart="bar">
-<!--
-{
-  "data": {
-    "labels": ["static dispatch", "inheritance", "dyno's remote vtable"],
-    "datasets": [{
-      "data": [11, 1070, 11],
-      "label": "Time (ns)",
-      "backgroundColor": "rgba(20, 220, 220, 1)"
-    }]
-  }
-}
--->
-</canvas>
-
-----
-
-### What happened?
-
-<div align="left">Inheritance:</div>
-![Implementation of inheritance](img/inheritance.png)
-
-<div align="left">Dyno's remote vtable:</div>
-![Dyno's remote vtable](img/remote_vtable.png)
-
-----
-
-### What's the lesson?
-
-- Reducing pointer hops can lead to unexpected inlining
-- When that happens, giant optimizations become possible
-
-----
-
-### Guidelines
-
-- By default, all methods are in the remote vtable
-- Consider inlining some methods if you see a difference
-- Watch out for places where you're a few hops away from devirtualization
-
-==============================================================================
-
-### Main problem with this talk:
-
-### It's a giant pain to implement
-
-----
-
-### Can we do something about it?
-
-----
-
-### Perhaps with reflection?
-
-```c++
-struct Vehicle {
-  void accelerate();
-};
-
-struct any_vehicle { /* see later */ };
-
-int main() {
-  std::vector<any_vehicle> vehicles;
-  vehicles.push_back(Car{...});
-  vehicles.push_back(Truck{...});
-  vehicles.push_back(lib::Motorcycle{...});
-
-  for (auto& vehicle : vehicles) {
-    vehicle.accelerate();
-  }
-}
-```
-
-----
-
-### Figure out the vtable layout
-
-```c++
-constexpr std::meta::type vtable_layout(std::meta::type interface) {
-  auto vtable = reflexpr(struct { });
-  for (auto method : interface.methods()) {
-    // signature of the method, with void* as first argument
-    auto signature = method.signature()
-                           .insert_argument(0, reflexpr(void*));
-    vtable.add_public_member(method.name(), method.add_ptr());
-  }
-  return vtable;
-}
-
-template <typename Interface>
-using vtable_layout_t = typename(vtable_layout(reflexpr(Interface)));
-```
-
-----
-
-### Fill the vtable
-
-```c++
-constexpr vtable_layout_t<Interface>
-fill_vtable(std::meta::type interface, std::meta::type model) {
-  vtable_layout_t<Interface> vtable;
-  for constexpr (auto method : interface) {
-    vtable. idexpr(method.name()) = unreflexpr(method.address());
-  }
-  return vtable;
-}
-
-template <typename Interface, typename Model>
-static constexpr vtable_layout_t<Interface> vtable_for =
-                fill_vtable(reflexpr(Interface), reflexpr(Model));
-```
-
-----
-
-### Generate the type-erased wrapper
-
-```c++
-class any_vehicle {
-  using VTable = vtable_layout_t<Vehicle>;
-  VTable* vtable_;
-  void* storage_;
-
-public:
-  template <typename V>
-  any_vehicle(V v)
-    : vtable_{&vtable_for<Vehicle, V>}
-    , storage_{new V{v}}
-  { }
-
-  void accelerate() {
-    vtable_->accelerate(storage_);
-  }
-};
-```
-
-----
-
-### Or with metaclasses? ([p0707r3](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0707r3.pdf))
-
-```c++
-constexpr std::meta::type interface(std::meta::type input) {
-  // generates the type-erasure wrapper
-}
-
-class<interface> Vehicle {
-  void accelerate();
-};
-
-int main() {
-  std::vector<Vehicle> vehicles;
-  vehicles.push_back(Car{...});
-  vehicles.push_back(Truck{...});
-  vehicles.push_back(lib::Motorcycle{...});
-
-  for (auto& vehicle : vehicles) {
-    vehicle.accelerate();
-  }
-}
-```
-
-----
-
-### Or maybe on top of concepts?
-
-```c++
-template <typename V>
-concept Vehicle = requires {
-  void V::accelerate(); // imaginary syntax
-}
-
-int main() {
-  std::vector<any Vehicle> vehicles;
-  vehicles.push_back(Car{...});
-  vehicles.push_back(Truck{...});
-  vehicles.push_back(lib::Motorcycle{...});
-
-  for (auto& vehicle : vehicles) {
-    vehicle.accelerate();
-  }
-}
-```
-
-----
-
-### Library customization points
-
-```c++
-template <>
-struct std::interface_traits<Vehicle> {
-  using storage_policy = std::local_storage<16>;
-  using vtable_policy = std::remote_vtable;
-};
-```
-
-Note:
-Kind of like coroutines -- a language feature backed by library customization points
-
-====
-
-### The goals
-
-- No boilerplate
-- No performance penalty vs handcrafted code
-- Bring concept-based runtime polymorphism to the masses
-
-==============================================================================
-
-### Summary
-
-- Inheritance model is just one option amongst others
-  + Don't bake that choice in
-- Many ways of storing polymorphic objects
-  + As always, space/time tradeoff
-- Vtables can be inlined (measure!)
-- Type erasure is tedious to do manually
-  + Reflection will be there to help
-  + Or maybe a custom language feature
-
-====
-
-### The Dyno library is available
-
-https://github.com/ldionne/dyno
-
-====
-
-### Useful links and related material
-
-- Sean Parent's NDC 2017 talk: <div style="font-size: 50%;">https://youtu.be/QGcVXgEVMJg</div>
-- Zach Laine's CppCon 2014 talk: <div style="font-size: 50%;">https://youtu.be/0I0FD3N5cgM</div>
-- Boost.TypeErasure: <div style="font-size: 50%;">http://www.boost.org/doc/libs/release/doc/html/boost_typeerasure.html</div>
-- Adobe Poly: <div style="font-size: 50%;">https://stlab.adobe.com/group__poly__related.html</div>
-- Eraserface: <div style="font-size: 50%;">https://github.com/badair/eraserface</div>
-- liberasure: <div style="font-size: 50%;">https://github.com/atomgalaxy/liberasure</div>
-- `te`: <div style="font-size: 50%;">https://github.com/boost-experimental/te</div>
-
-====
-
-### Thank you
-
-https://ldionne.com
+### Qeustiosn?
 
         </script>
         </section>
@@ -1180,6 +290,7 @@ https://ldionne.com
         slideNumber: 'c', // 'c/t' -> useful when authoring to know how many slides there are
         history: true,
         transition: 'fast',
+        keyboard: true,
 
         // Default settings for charts embedded in the presentation
         chart: {
@@ -1206,6 +317,7 @@ https://ldionne.com
         dependencies: [
           { src: 'reveal/plugin/markdown/marked.js' },
           { src: 'reveal/plugin/markdown/markdown.js' },
+          { src: 'reveal/plugin/embed-tweet/embed-tweet.js' },
           { src: 'reveal/plugin/notes/notes.js', async: true },
           { src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
           { src: 'plugin/Chart.min.js' },
@@ -1214,24 +326,15 @@ https://ldionne.com
         ]
       });
 
-      // Remove all DOM elements with the 'slide-hidden' class. This allows
-      // statically marking slides as hidden to exclude them from the
-      // presentation.
-      Reveal.addEventListener('ready', function(event) {
-        $(".slide-hidden").each(function(index, slide) {
-          slide.remove();
-        });
-      });
-
-      // When the current slide contains an element with id '#godbolt', we reload
-      // the iframe. This is to workaround a bug where the iframe would otherwise
-      // not be painted properly.
-      Reveal.addEventListener('slidechanged', function(event) {
-        var godbolt = event.currentSlide.querySelector("#godbolt");
-        if (godbolt != undefined) {
-          console.log("Reloading godbolt iframe");
-          godbolt.contentWindow.location.reload(true);
-        }
+      Reveal.configure({
+        keyboard: {
+          13: 'next', // go to the next slide when the ENTER key is pressed
+          27: function() {}, // do something custom when ESC is pressed
+          32: function(){ 
+              if (video.paused == true) video.play();
+              else video.pause();
+              }
+         }
       });
     </script>
   </body>
