@@ -61,7 +61,7 @@ These slides are available at https://github.com/wilhelma/icse18-presentation
 
 ### Moore's Law is Dead, what's next?
 <div>
-    <img src="img/supercomputing.pdf" alt="Moore's Law" style="width:80%">
+    <img src="img/supercomputing.png" alt="Moore's Law" style="width:80%">
 </div>
 <font size=2>https://en.wikipedia.org/wiki/Supercomputer</font>
 
@@ -132,9 +132,16 @@ Future: 1) Eff 10% 2) Domain 3) Quantum
 ----
 
 ### Low-Level Problem
-<span>
-    <img src="img/tweet.png" alt="Legacy Code" style="height:100%" width="100%">
-</span>
+
+```C++
+float a,x,y,S=0,V=0;main(){for(;F--;usleep(50000),F?puts( "\x1b[25A")
+:0)for(S+=V+=(1-S)/10-V/4,j=0;j<72;j+=3,putchar(10))for(i=0;x=S*( i-2
+7),i++<73;putchar(c[" ''\".$u$"]))for(c=0,n=3;n--;)for(y=S*(j+n-36),k
+=0,c ^=(136*x*x+84*y*y<92033)<<n,p=6,m=0;m<8;k++["<[\\]O=IKNAL;KNRbF8
+EbGEROQ@BSX" "XtG!#t3!^"]/1.16-68>x*cos(a)+y*sin(a)?k=p,p="<AFJPTX"[m
+++]-50:k==p?c^=1<<n, m=8:0)a=(k["O:85!fI,wfO8!yZfO8!f*hXK3&fO;:O;#hP;
+\"i[by asloane"]-79)/14.64;}
+```
 
 ----
 
@@ -153,7 +160,7 @@ Future: 1) Eff 10% 2) Domain 3) Quantum
 
 ### Parallelization Tools
 <div>
-    <img src="img/parallelization-tools.pdf" alt="Parallelization Tools" style="width:30%">
+    <img src="img/parallelization-tools.png" alt="Parallelization Tools" style="width:30%">
 </div>
 <ul>
   <li class="fragment strength">Very useful for *regular* code</li>
@@ -164,7 +171,7 @@ Future: 1) Eff 10% 2) Domain 3) Quantum
 
 ### Architecture Analysis Tools
 <div>
-    <img src="img/architecture-tools.pdf" alt="Architecture Tools" style="width:40%">
+    <img src="img/architecture-tools.png" alt="Architecture Tools" style="width:40%">
 </div>
 <ul>
   <li class="fragment strength">Help to understand and evaluate</li>
@@ -200,14 +207,14 @@ Future: 1) Eff 10% 2) Domain 3) Quantum
 
 ### Workflow
 <span>
-   <img src="img/parceive-workflow.pdf" alt="Workflow" width="100%">
+   <img src="img/parceive-workflow.png" alt="Workflow" width="100%">
 </span>
 
 ----
 
 ### I will not talk about
 <span>
-   <img src="img/parceive-workflow-del.pdf" alt="Workflow Del" width="100%">
+   <img src="img/parceive-workflow-del.png" alt="Workflow Del" width="100%">
 </span>
 
 ----
@@ -328,17 +335,6 @@ I brought some business cards
           { src: 'plugin/csv2chart.js' },
           { src: 'plugin/sampler.js' }
         ]
-      });
-
-      Reveal.configure({
-        keyboard: {
-          13: 'next', // go to the next slide when the ENTER key is pressed
-          27: function() {}, // do something custom when ESC is pressed
-          32: function(){ 
-              if (video.paused == true) video.play();
-              else video.pause();
-              }
-         }
       });
     </script>
   </body>
